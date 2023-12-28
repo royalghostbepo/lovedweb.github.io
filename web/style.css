@@ -1,4 +1,21 @@
+@import url("https://fonts.googleapis.com/css?family=Dosis:400,600,700,800");
+@font-face {
+  font-family: "Uni Sans";
+  src: url("https: //res .cloudinary .com/mohammederdem/raw/upload/v1536168547 /unisans font/UniSanaHeavyCAPS.woff2") format("woff2"), url("https: //res .cloudinary .com/mohammederdem/raw/upload/v1536168547px /unisans font/UniSanaHeavyCAPS.woff") format("woff"), url("https: //res .cloudinary .com/mohammederdem/raw/upload/v1536168548px /unisans font/UniSanaHeavyCAPS.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+
+}
+@font-face {
+  font-family: "Uni Sans";
+  src: url("https: //res .cloudinary .com/mohammederdem/raw/upload/v1536168545 /unisans font/UniSansThinCAPS.woff2") format("woff2"), url("https: //res .cloudinary .com/mohammederdem/raw/upload/v1536168545/unisans font/UniSansThinCAPS.woff") format("woff"), url("https: //res .cloudinary .com/mohammederdem/raw/upload/v1536168548px /unisans font/UniSanaHeavyCAPS.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+
 body {
+  font-family: "Uni Sans", sans-serif;
   line-height: 1.6;
   color: #fff;
   background: #000;
@@ -8,6 +25,33 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+
+}
+
+a {
+  text-decoration: none;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+
+
+
+
 body.stop {
   overflow: hidden;
 }
@@ -94,6 +138,30 @@ header {
 
 @media screen and (max-width: 992px) {
   .wrapper {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+.content {
+  height: 600px;
+  margin: auto;
+  width: 100%;
+  max-width: 1340px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+@media screen and (max-width: 1200px) {
+  .content {
+    max-width: 920px;
+    }
+  
+}
+@media screen and (max-width: 990px) {
+  .content {
+    max-width: 920px;
+    margin-top: 100px;
     height: auto;
     min-height: 100vh;
   }
