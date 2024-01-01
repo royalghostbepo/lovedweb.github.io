@@ -1,137 +1,98 @@
-// set up canvas
-// 1 to 106 ...lines for balls 
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
-const width = canvas.width = window.innerWidth;
-const height = canvas.height = window.innerHeight;
+var swiper = new Swiper('.product-slider', {
+        spaceBetween: 30,
+        effect: 'fade',
+        // initialSlide: 2,
+        loop: false,
+        navigation: {
+            nextEl: '.next',
+            prevEl: '.prev'
+        },
+        // mousewheel: {
+        //     // invert: false
+        // },
+        on: {
+            init: function(){
+                var index = this.activeIndex;
 
-// function to generate random number
+                var target = $('.product-slider__item').eq(index).data('target');
 
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+                console.log(target);
 
-// function to generate random RGB color value
-
-function randomRGB() {
-  return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
-}
-
-class Ball {
-
-   constructor(x, y, velX, velY, color, size) {
-      this.x = x;
-      this.y = y;
-      this.velX = velX;
-      this.velY = velY;
-      this.color = color;
-      this.size = size;
-   }
-
-   draw() {
-      ctx.beginPath();
-      ctx.fillStyle = this.color;
-      ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-      ctx.fill();
-   }
-
-   update() {
-      if ((this.x + this.size) >= width) {
-         this.velX = -(Math.abs(this.velX));
-      }
-
-      if ((this.x - this.size) <= 0) {
-         this.velX = Math.abs(this.velX);
-      }
-
-      if ((this.y + this.size) >= height) {
-         this.velY = -(Math.abs(this.velY));
-      }
-
-      if ((this.y - this.size) <= 0) {
-         this.velY = Math.abs(this.velY);
-      }
-
-      this.x += this.velX;
-      this.y += this.velY;
-   }
-
-   collisionDetect() {
-      for (const ball of balls) {
-         if (!(this === ball)) {
-            const dx = this.x - ball.x;
-            const dy = this.y - ball.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < this.size + ball.size) {
-              ball.color = this.color = randomRGB();
+                $('.product-img__item').removeClass('active');
+                $('.product-img__item#'+ target).addClass('active');
             }
-         }
-      }
-   }
-
-}
-
-const balls = [];
-
-while (balls.length < 25) {
-   const size = random(10,20);
-   const ball = new Ball(
-      // ball position always drawn at least one ball width
-      // away from the edge of the canvas, to avoid drawing errors
-      random(0 + size,width - size),
-      random(0 + size,height - size),
-      random(-7,7),
-      random(-7,7),
-      randomRGB(),
-      size
-   );
-
-  balls.push(ball);
-}
-
-function loop() {
-   ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-   ctx.fillRect(0, 0,  width, height);
-
-   for (const ball of balls) {
-     ball.draw();
-     ball.update();
-     ball.collisionDetect();
-   }
-
-   requestAnimationFrame(loop);
-}
-
-loop();
-
-// User Request starts here.
-
-
-
-document.getElementById('weatherForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-
-    // Get city input value
-    var city = document.getElementById('cityInput').value;
-
-    // Use the city value to fetch weather data (replace with your API URL)
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=fd6506dc9bf5af3f3c4a42b9a6291e56`)
-    .then(response => response.json())
-    .then(data => {
-        // Display weather information in the UI
-        var weatherInfo = document.getElementById('weatherInfo');
-        weatherInfo.innerHTML = `
-        <h2>Weather in ${city}</h2>
-        <p>Temperature: ${data.current.temperature}</p>
-        <p>Weather Descriptions: ${data.current.weather_descriptions.join(', ')}</p>
-        `;
-    })
-    .catch(error => {
-        // Handle errors
-        console.error('Error fetching weather:', error);
-        var weatherInfo = document.getElementById('weatherInfo');
-        weatherInfo.innerHTML = `<p>Error fetching weather data.</p>
-        `;
+        }
     });
-});
+
+    swiper.on('slideChange', function () {
+        var index = this.activeIndex;
+
+        var target = $('.product-slider__item').eq(index).data('target');
+
+        console.log(target);
+
+        $('.product-img__item').removeClass('active');
+        $('.product-img__item#'+ target).addClass('active');
+
+        if(swiper.isEnd) {
+            $('.prev').removeClass('disabled');
+            $('.next').addClass('disabled');
+        } else {
+            $('.next').removeClass('disabled');
+        }
+
+        if(swiper.isBeginning) {
+            $('.prev').addClass('disabled');
+        } else {
+            $('.prev').removeClass('disabled');
+        }
+    });
+
+    $(".js-fav").on("click", function() {
+        $(this).find('.heart').toggleClass("is-active");
+    });
+
+
+
+    //navbar
+    document.addEventListener('DOMContentLoaded', function() {
+        var header = document.getElementById('myHeader');
+          var page = document.getElementById('page');
+        var openMenuButton = document.getElementById('openmenu');
+    
+        window.addEventListener('scroll', function() {
+            page.classList.remove('menuopen'); // Ensures the menu is closed on scroll
+            if (window.scrollY >= 100) {
+                header.classList.add('sticky'); // When scrolled down 100 pixels, adds 'sticky' class
+            } else {
+                header.classList.remove('sticky'); // Removes 'sticky' class if scrolled back up
+            }
+        });
+        
+    
+        // Event listener to remove the sticky class when the button is clicked
+        openMenuButton.addEventListener('click', function() {
+            header.classList.remove('sticky');
+                    page.classList.add('menuopen');
+        });
+        
+        var links = document.querySelectorAll('a[href^="#"]');
+    
+        links.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                // Prevent the default action
+                event.preventDefault();
+    
+                // Get the target element
+                var targetId = this.getAttribute('href');
+                var targetElement = document.querySelector(targetId);
+    
+                // Smooth scroll to target
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
